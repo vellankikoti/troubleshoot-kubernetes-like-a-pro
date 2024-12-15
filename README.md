@@ -1,4 +1,3 @@
-```markdown
 # Troubleshoot Kubernetes Like a Pro: Real-World Scenarios
 
 ## Purpose of the Project
