@@ -8,4 +8,4 @@ RUN apt-get update && apt-get install -y \
 COPY ./pid_collision.sh /usr/local/bin/pid_collision.sh
 RUN chmod +x /usr/local/bin/pid_collision.sh
 
-ENTRYPOINT ["/usr/local/bin/pid_namespace.sh"]
+ENTRYPOINT ["/usr/local/bin/pid_collision.sh"]
