@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fixed-dns-resolution-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    dnsPolicy: "ClusterFirst"

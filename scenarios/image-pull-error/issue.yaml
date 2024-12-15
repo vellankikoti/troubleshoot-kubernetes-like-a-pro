@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: image-pull-error-pod
+spec:
+  containers:
+  - name: nginx
+    image: myprivateregistry.com/nginx:latest

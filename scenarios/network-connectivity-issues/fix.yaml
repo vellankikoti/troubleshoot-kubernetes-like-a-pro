@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fixed-network-connectivity-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+  networkPolicy:
+    ingress:
+      - from:
+          - podSelector:
+              matchLabels:
+                app: nginx

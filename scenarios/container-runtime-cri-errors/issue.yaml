@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: container-runtime-cri-issue-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest

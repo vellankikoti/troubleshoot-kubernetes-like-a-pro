@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fixed-selinux-apparmor-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    securityContext:
+      seLinuxOptions:
+        level: "s0"

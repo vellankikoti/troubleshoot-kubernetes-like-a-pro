@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wrong-command-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    command: ["wrongcommand"]

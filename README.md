@@ -1,11 +1,8 @@
-Sure! Here's the **`README.md`** content in markdown format that you can use directly in your repository.
-
-```markdown
 # Troubleshoot Kubernetes Like a Pro: Real-World Scenarios
 
 ## Purpose of the Project
 
-This repository aims to provide a **comprehensive Kubernetes troubleshooting guide** to help you diagnose and resolve common issues you may encounter in production environments. Kubernetes can be complex to manage, especially when dealing with distributed systems, scaling, and resource management. Through this collection of **34 production-grade scenarios**, we aim to simulate real-world problems and provide practical solutions to them.
+This repository aims to provide a **comprehensive Kubernetes troubleshooting guide** to help you diagnose and resolve common issues you may encounter in production environments. Kubernetes can be complex to manage, especially when dealing with distributed systems, scaling, and resource management. Through this collection of **35 production-grade scenarios**, we aim to simulate real-world problems and provide practical solutions to them.
 
 Whether you’re a **Kubernetes beginner** or an **experienced DevOps engineer**, this guide will help you gain a deeper understanding of Kubernetes operations by walking through each scenario step-by-step. By simulating these issues and troubleshooting them, you'll be able to learn and apply essential Kubernetes concepts while becoming proficient in handling production-grade issues.
 
@@ -161,6 +158,10 @@ Whether you’re a **Kubernetes beginner** or an **experienced DevOps engineer**
     - **Description**: Incorrect storage class prevents pod from accessing persistent storage.
     - **Fix**: Review storage class and PVC configuration for correctness.
 
+35. **pod-memory-leak**
+    - **Description**: The pod suffers from memory leaks, causing the container to consume excessive memory over time.
+    - **Fix**: Investigate application logs and optimize memory usage in the pod.
+
 ---
 
 ## How to Simulate and Fix These Issues
@@ -177,5 +178,4 @@ You can simulate a scenario by applying the respective `issue.yaml` file, diagno
 2. Navigate to the `scripts/` directory.
 3. Run the `manage-scenarios.sh` script.
 4. Enter the scenario number when prompted, and the script will guide you through the issue and fix process.
-
----
+```

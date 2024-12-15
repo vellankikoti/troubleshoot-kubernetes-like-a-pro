@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: service-account-permissions-issue-pod
+spec:
+  serviceAccountName: my-service-account
+  containers:
+  - name: nginx
+    image: nginx:latest
