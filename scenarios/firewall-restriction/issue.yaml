@@ -1,8 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: firewall-restriction-issue-pod
+  name: firewall-restriction-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "curl google.com"  # Firewall restricts outgoing traffic

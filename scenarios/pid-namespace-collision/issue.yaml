@@ -3,7 +3,15 @@ kind: Pod
 metadata:
   name: pid-namespace-collision-pod
 spec:
-  hostPID: true
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'PID namespace collision detected' && sleep 1000"
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    pid: Host  # Cause namespace collision

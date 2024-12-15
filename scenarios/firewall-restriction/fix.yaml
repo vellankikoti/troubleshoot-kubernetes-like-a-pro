@@ -1,13 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fixed-firewall-pod
+  name: firewall-restriction-fixed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
-  networkPolicy:
-    egress:
-      - to:
-          - ipBlock:
-              cidr: 0.0.0.0/0
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "curl google.com"  # This should succeed once the firewall allows traffic

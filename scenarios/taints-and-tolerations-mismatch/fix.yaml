@@ -1,13 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fixed-taints-and-tolerations-pod
+  name: taints-tolerations-fixed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Taints and tolerations fixed' && sleep 1000"
   tolerations:
-  - key: "key"
-    operator: "Equal"
-    value: "value"
-    effect: "NoSchedule"
+    - key: "example-key"
+      operator: "Equal"
+      value: "example-value"
+      effect: "NoExecute"  # Correct matching taint

@@ -1,9 +1,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: service-account-permissions-issue-pod
+  name: service-account-permission-issue-pod
 spec:
-  serviceAccountName: my-service-account
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Simulating service account permission issue' && sleep 1000"
+  serviceAccountName: invalid-service-account  # Service account does not have permissions

@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: disk-io-errors-pod
+  name: disk-io-error-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
     volumeMounts:
-      - mountPath: /data
-        name: my-volume
+    - mountPath: /data
+      name: data-volume
   volumes:
-    - name: my-volume
-      persistentVolumeClaim:
-        claimName: my-pvc
+  - name: data-volume
+    hostPath:
+      path: /nonexistent-path  # Invalid path leading to disk I/O errors

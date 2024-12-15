@@ -1,15 +1,19 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fixed-resource-mismatch-pod
+  name: resource-mismatch-fixed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Resource mismatch fixed' && sleep 1000"
     resources:
       requests:
-        memory: "500Mi"
+        memory: "200Mi"
         cpu: "500m"
       limits:
-        memory: "1Gi"
-        cpu: "1"
+        memory: "500Mi"
+        cpu: "500m"  # Fixed to align the limits with the requests

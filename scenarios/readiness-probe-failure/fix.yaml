@@ -1,14 +1,19 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fixed-readiness-probe-pod
+  name: readiness-probe-fixed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Readiness probe fixed' && sleep 1000"
     readinessProbe:
       httpGet:
-        path: /healthz
-        port: 80
-      initialDelaySeconds: 10
-      periodSeconds: 15
+        path: /healthz  # Fixed the path for readiness probe
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 3
+      failureThreshold: 3

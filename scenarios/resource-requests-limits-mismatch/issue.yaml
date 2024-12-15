@@ -4,12 +4,16 @@ metadata:
   name: resource-mismatch-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Simulating resource mismatch' && sleep 1000"
     resources:
       requests:
-        memory: "500Mi"
+        memory: "200Mi"
         cpu: "500m"
       limits:
-        memory: "400Mi"
-        cpu: "400m"
+        memory: "500Mi"
+        cpu: "100m"  # Limit is less than the request, causing mismatch

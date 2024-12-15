@@ -4,5 +4,9 @@ metadata:
   name: outdated-k8s-version-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Running on an outdated Kubernetes version' && sleep 1000"

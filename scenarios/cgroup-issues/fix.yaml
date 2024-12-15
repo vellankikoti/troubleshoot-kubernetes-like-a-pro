@@ -1,15 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fixed-cgroup-issue-pod
+  name: cgroup-issue-fixed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
     resources:
-      requests:
-        memory: "512Mi"
-        cpu: "500m"
       limits:
-        memory: "1Gi"
-        cpu: "1"
+        cpu: "1000m"  # Adjusted resources for better scheduling
+        memory: "2Gi"  # Increased memory

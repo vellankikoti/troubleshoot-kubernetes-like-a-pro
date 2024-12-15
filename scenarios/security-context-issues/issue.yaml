@@ -4,7 +4,12 @@ metadata:
   name: security-context-issue-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
-    securityContext:
-      runAsUser: 0  # Running as root (not recommended)
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Simulating security context issue' && sleep 1000"
+  securityContext:
+    runAsUser: 0  # Simulating root user
+    runAsGroup: 0

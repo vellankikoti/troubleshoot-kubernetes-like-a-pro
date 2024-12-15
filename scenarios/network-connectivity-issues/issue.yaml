@@ -4,5 +4,9 @@ metadata:
   name: network-connectivity-issue-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "curl google.com"  # Fails due to network restrictions

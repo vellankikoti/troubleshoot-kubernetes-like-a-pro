@@ -1,14 +1,19 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: readiness-probe-failure-pod
+  name: readiness-probe-issue-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Simulating readiness probe failure' && sleep 1000"
     readinessProbe:
       httpGet:
-        path: /healthz
-        port: 80
+        path: /health
+        port: 8080
       initialDelaySeconds: 5
-      periodSeconds: 10
+      periodSeconds: 3
+      failureThreshold: 3

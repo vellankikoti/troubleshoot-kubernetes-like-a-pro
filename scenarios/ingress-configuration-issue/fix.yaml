@@ -1,17 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: fixed-ingress
+  name: ingress-fixed
 spec:
   rules:
-  - host: myapp.local
+  - host: valid-domain.com  # Valid host name
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: my-service
+            name: web-service
             port:
               number: 80
-  ingressClassName: nginx

@@ -4,13 +4,13 @@ metadata:
   name: ingress-issue
 spec:
   rules:
-  - host: myapp.local
+  - host: non-existent-domain.com  # Invalid host name
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: my-service
+            name: web-service
             port:
               number: 80

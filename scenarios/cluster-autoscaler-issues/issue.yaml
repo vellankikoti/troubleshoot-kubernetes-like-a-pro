@@ -1,15 +1,14 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: cluster-autoscaler-issue-pod
+  name: cluster-autoscaler-issue-deployment
 spec:
-  containers:
-  - name: nginx
-    image: nginx:latest
-    resources:
-      requests:
-        memory: "8Gi"
-        cpu: "4"
-      limits:
-        memory: "10Gi"
-        cpu: "5"
+  replicas: 100  # Too many replicas without enough nodes, causing autoscaler failure
+  template:
+    metadata:
+      labels:
+        app: cluster-autoscaler
+    spec:
+      containers:
+      - name: busybox
+        image: busybox

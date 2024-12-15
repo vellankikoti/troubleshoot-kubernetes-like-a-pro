@@ -1,15 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: crash-due-to-insufficient-disk-space-pod
+  name: crash-disk-space-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
-    volumeMounts:
-    - mountPath: /var/log
-      name: log-volume
-  volumes:
-  - name: log-volume
-    persistentVolumeClaim:
-      claimName: log-pvc
+  - name: busybox
+    image: busybox
+    resources:
+      requests:
+        storage: "10Gi"  # Excessive storage request leading to disk issues

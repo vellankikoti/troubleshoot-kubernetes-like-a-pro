@@ -1,10 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fixed-pid-namespace-pod
+  name: pid-namespace-collision-fixed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'PID namespace fixed' && sleep 1000"
   securityContext:
-    pid: "None"
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    pid: Container  # Fixed PID namespace usage

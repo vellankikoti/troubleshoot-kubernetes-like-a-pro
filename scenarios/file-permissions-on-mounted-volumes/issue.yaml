@@ -4,12 +4,12 @@ metadata:
   name: file-permissions-issue-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
     volumeMounts:
-    - mountPath: /mnt/data
+    - mountPath: /data
       name: data-volume
   volumes:
   - name: data-volume
-    persistentVolumeClaim:
-      claimName: data-pvc
+    hostPath:
+      path: /data  # Host path with restrictive permissions

@@ -4,11 +4,16 @@ metadata:
   name: liveness-probe-failure-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
     livenessProbe:
       httpGet:
         path: /healthz
-        port: 80
-      initialDelaySeconds: 5
-      periodSeconds: 5
+        port: 8080
+      initialDelaySeconds: 3
+      periodSeconds: 3
+      failureThreshold: 1
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Liveness probe failure' && sleep 1000"

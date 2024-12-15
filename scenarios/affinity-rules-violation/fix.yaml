@@ -1,18 +1,33 @@
 apiVersion: v1
-kind: Pod
+kind: Node
 metadata:
-  name: fixed-affinity-violation-pod
+  name: <node-name>  # Replace with the name of an actual node in your cluster
+  labels:
+    disktype: ssd  # Adding the required label to the node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
 spec:
-  containers:
-  - name: nginx
-    image: nginx:latest
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-              - node3
-              - node4
+  replicas: 3  # Ensure there are enough replicas
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: disktype
+                operator: In
+                values:
+                - ssd  # This matches the label we added to the node
+      containers:
+      - name: nginx
+        image: nginx

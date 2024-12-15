@@ -4,10 +4,14 @@ metadata:
   name: oom-killed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
     resources:
-      requests:
-        memory: "500Mi"
       limits:
-        memory: "1Gi"
+        memory: "100Mi"  # Memory limit too low for workload
+      requests:
+        memory: "100Mi"
+    command:
+      - "sh"
+      - "-c"
+      - "stress --vm 1 --vm-bytes 200Mi --vm-hang 0"  # Memory stress to trigger OOM

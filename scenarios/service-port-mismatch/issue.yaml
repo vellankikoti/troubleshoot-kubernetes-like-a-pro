@@ -1,12 +1,28 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-port-mismatch
+  name: service-port-issue
 spec:
   selector:
-    app: nginx
+    app: busybox
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8080
-  type: ClusterIP
+      port: 8081  # Mismatched port
+      targetPort: 8080  # Target port does not match
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: service-port-issue-pod
+  labels:
+    app: busybox
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    ports:
+    - containerPort: 8080
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Simulating service port mismatch' && sleep 1000"

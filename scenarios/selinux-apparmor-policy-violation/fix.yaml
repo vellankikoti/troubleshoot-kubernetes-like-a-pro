@@ -1,11 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fixed-selinux-apparmor-pod
+  name: selinux-apparmor-fixed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
-    securityContext:
-      seLinuxOptions:
-        level: "s0"
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'SELinux/AppArmor policy fixed' && sleep 1000"
+  securityContext:
+    seLinuxOptions:
+      level: "s0:c0,c0"  # Fixed the SELinux context

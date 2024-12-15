@@ -1,24 +1,19 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: affinity-test-pod
+  name: affinity-violation-pod
+  labels:
+    app: my-app
 spec:
-  containers:
-  - name: affinity-test
-    image: vellankikoti/affinity-test:latest
-    resources:
-      requests:
-        memory: "128Mi"
-        cpu: "250m"
-      limits:
-        memory: "256Mi"
-        cpu: "500m"
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          - key: kubernetes.io/e2e-az-name
+          - key: disktype
             operator: In
             values:
-            - east-zone
+            - ssd
+  containers:
+  - name: nginx
+    image: nginx

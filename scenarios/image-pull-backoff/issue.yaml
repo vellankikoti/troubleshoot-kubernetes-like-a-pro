@@ -4,5 +4,5 @@ metadata:
   name: image-pull-backoff-pod
 spec:
   containers:
-  - name: nginx
-    image: vellankikoti/nginx:latest
+  - name: busybox
+    image: non-existent-image  # Invalid image causing pull failure

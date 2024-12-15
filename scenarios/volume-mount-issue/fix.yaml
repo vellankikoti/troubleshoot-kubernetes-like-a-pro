@@ -1,26 +1,18 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fixed-volume-mount-pod
+  name: volume-mount-fixed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
     volumeMounts:
-      - mountPath: /data
-        name: my-volume
+      - mountPath: "/mnt/data"
+        name: correct-volume  # Correct volume mount
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Volume mount fixed' && sleep 1000"
   volumes:
-    - name: my-volume
-      persistentVolumeClaim:
-        claimName: my-pvc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: my-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
+    - name: correct-volume
+      emptyDir: {}  # Correct volume definition

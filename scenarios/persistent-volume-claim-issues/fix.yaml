@@ -1,11 +1,39 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: valid-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /tmp/data
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: fixed-pvc
+  name: pvc-fixed
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
-  volumeMode: Filesystem
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-fixed-pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    volumeMounts:
+    - mountPath: /data
+      name: data-volume
+  volumes:
+  - name: data-volume
+    persistentVolumeClaim:
+      claimName: pvc-fixed  # PVC that can now bind to PV

@@ -1,13 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: taints-and-tolerations-issue-pod
+  name: taints-tolerations-mismatch-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Simulating taints and tolerations mismatch' && sleep 1000"
   tolerations:
-  - key: "key"
-    operator: "Equal"
-    value: "value"
-    effect: "NoSchedule"
+    - key: "example-key"
+      operator: "Equal"
+      value: "example-value"
+      effect: "NoExecute"  # Toleration mismatch with taint

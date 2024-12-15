@@ -4,7 +4,9 @@ metadata:
   name: crashloopbackoff-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
-    ports:
-    - containerPort: 80
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "exit 1"  # Command that causes the container to crash

@@ -1,9 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fixed-command-pod
+  name: wrong-container-command-fixed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
-    command: ["nginx", "-g", "daemon off;"]
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"  # Correct command
+      - "-c"
+      - "echo 'Wrong container command fixed' && sleep 1000"

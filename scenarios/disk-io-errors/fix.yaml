@@ -1,26 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fixed-disk-io-pod
+  name: disk-io-error-fixed-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
     volumeMounts:
-      - mountPath: /data
-        name: my-volume
+    - mountPath: /data
+      name: data-volume
   volumes:
-    - name: my-volume
-      persistentVolumeClaim:
-        claimName: my-pvc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: my-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
+  - name: data-volume
+    hostPath:
+      path: /valid-path  # Corrected path

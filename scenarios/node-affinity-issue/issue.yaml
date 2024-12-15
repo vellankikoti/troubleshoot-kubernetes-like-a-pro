@@ -4,14 +4,14 @@ metadata:
   name: node-affinity-issue-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
-          - key: disktype
-            operator: In
-            values:
-            - ssd
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+              - non-existent-node  # Invalid node hostname

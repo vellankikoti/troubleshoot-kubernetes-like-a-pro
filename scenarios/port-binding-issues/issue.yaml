@@ -4,8 +4,11 @@ metadata:
   name: port-binding-issue-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
     ports:
-      - containerPort: 8080
-        hostPort: 8080
+    - containerPort: 8080  # Port already in use
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Port binding issue detected' && sleep 1000"

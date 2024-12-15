@@ -1,15 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: insufficient-resource-pod
+  name: insufficient-resources-pod
 spec:
   containers:
-  - name: example-container
-    image: nginx:latest
+  - name: busybox
+    image: busybox
     resources:
       requests:
-        memory: "2Gi"
-        cpu: "1"
-      limits:
+        cpu: "2"   # Exceeds available resources
         memory: "4Gi"
-        cpu: "2"

@@ -3,7 +3,22 @@ kind: PodDisruptionBudget
 metadata:
   name: pdb-issue
 spec:
-  minAvailable: 1
+  minAvailable: 2  # Minimum number of available pods
   selector:
     matchLabels:
-      app: nginx
+      app: my-app
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pdb-issue-pod
+  labels:
+    app: my-app
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Pod disruption budget violation' && sleep 1000"

@@ -1,0 +1,24 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: pdb-fixed
+spec:
+  minAvailable: 1  # Adjusted minAvailable to allow disruption
+  selector:
+    matchLabels:
+      app: my-app
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pdb-fixed-pod
+  labels:
+    app: my-app
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command:
+      - "sh"
+      - "-c"
+      - "echo 'Pod disruption budget fixed' && sleep 1000"

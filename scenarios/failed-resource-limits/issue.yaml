@@ -4,12 +4,9 @@ metadata:
   name: failed-resource-limits-pod
 spec:
   containers:
-  - name: nginx
-    image: nginx:latest
+  - name: busybox
+    image: busybox
     resources:
-      requests:
-        memory: "10Gi"
-        cpu: "10"
       limits:
-        memory: "20Gi"
-        cpu: "20"
+        cpu: "100m"
+        memory: "500Mi"  # Limited resources causing pod to fail under load
