@@ -179,3 +179,5 @@ You can simulate a scenario by applying the respective `issue.yaml` file, diagno
 3. Run the `manage-scenarios.sh` script.
 4. Enter the scenario number when prompted, and the script will guide you through the issue and fix process.
 ```
+
+---
