@@ -1,183 +1,134 @@
-# Troubleshoot Kubernetes Like a Pro: Real-World Scenarios
+# Kubernetes Troubleshooting Scenarios
 
-## Purpose of the Project
+Welcome to the **Kubernetes Troubleshooting Scenarios Simulator**! This repository contains 35 real-world Kubernetes issues that you can simulate, analyze, and resolve. Each scenario is designed to help you gain hands-on experience with troubleshooting in Kubernetes environments.
 
-This repository aims to provide a **comprehensive Kubernetes troubleshooting guide** to help you diagnose and resolve common issues you may encounter in production environments. Kubernetes can be complex to manage, especially when dealing with distributed systems, scaling, and resource management. Through this collection of **35 production-grade scenarios**, we aim to simulate real-world problems and provide practical solutions to them.
+## How to Use This Repository
 
-Whether you’re a **Kubernetes beginner** or an **experienced DevOps engineer**, this guide will help you gain a deeper understanding of Kubernetes operations by walking through each scenario step-by-step. By simulating these issues and troubleshooting them, you'll be able to learn and apply essential Kubernetes concepts while becoming proficient in handling production-grade issues.
+### Prerequisites
+1. **Kubernetes Cluster**:
+   - Ensure you have access to a Kubernetes cluster. You can use a local setup like Minikube, Docker Desktop, or a managed service like AWS EKS, GKE, or AKS.
 
----
+2. **`kubectl` Installed**:
+   - Install and configure `kubectl` to manage your Kubernetes cluster.
+   - Verify your cluster connection:
+     ```bash
+     kubectl config use-context <your-cluster-context>
+     kubectl get nodes
+     ```
 
-## Troubleshooting Scenarios
+3. **Clone the Repository**:
+   - Clone this repository to your local machine:
+     ```bash
+     git clone https://github.com/vellankikoti/troubleshoot-kubernetes-like-a-pro.git
+     cd troubleshoot-kubernetes-like-a-pro
+     ```
 
-### **Before Pod Gets Scheduled**
+### Running the Scenarios
 
-1. **insufficient-resource-pod**
-   - **Description**: The pod is in a pending state due to insufficient CPU or memory resources on the node.
-   - **Fix**: Adjust the pod's resource requests or scale your cluster.
+1. **Make the Script Executable**:
+   - Ensure the script is executable:
+     ```bash
+     chmod +x manage-scenarios.sh
+     ```
 
-2. **node-affinity-failure**
-   - **Description**: Pods fail to be scheduled because they do not meet the node affinity rules.
-   - **Fix**: Update node affinity rules to match available nodes.
+2. **Run the Script**:
+   - Start the simulation by running:
+     ```bash
+     ./manage-scenarios.sh
+     ```
 
-3. **taint-toleration-mismatch**
-   - **Description**: Pods do not tolerate node taints, causing them to remain unscheduled.
-   - **Fix**: Add proper tolerations to the pod or remove taints from nodes.
+3. **Choose a Scenario**:
+   - The script will display a list of 35 scenarios. Each scenario represents a real-world Kubernetes issue.
+   - Enter the scenario number to simulate and fix. For example, enter `1` for "Affinity Rules Violation."
 
-4. **pending-pod**
-   - **Description**: A pod is stuck in a `Pending` state with no apparent reason.
-   - **Fix**: Check for resource availability, pod configuration, and scheduling issues.
+4. **Simulate the Issue**:
+   - The script will apply the `issue.yaml` file for the selected scenario, simulating the problem in your Kubernetes cluster.
+   - You can inspect the issue using commands like:
+     ```bash
+     kubectl describe pod <pod-name>
+     kubectl logs <pod-name>
+     ```
 
-5. **image-pull-failure**
-   - **Description**: The pod cannot pull its container image from the registry.
-   - **Fix**: Ensure the image exists, and authentication credentials (if necessary) are correct.
+5. **Apply the Fix**:
+   - After reviewing the issue, the script will guide you to apply the `fix.yaml` file to resolve it.
+   - Verify that the issue is resolved by checking the pod's status or logs.
 
-### **Pod Scheduled, But Container Errors**
+### Example Workflow
+1. Run the script:
+   ```bash
+   ./manage-scenarios.sh
+   ```
+2. Choose a scenario, e.g., "Affinity Rules Violation" (Scenario 1).
+3. The script will:
+   - Apply the issue YAML (`issue.yaml`).
+   - Guide you to check the issue using `kubectl`.
+4. Apply the fix YAML (`fix.yaml`) to resolve the issue.
+5. Verify the resolution.
 
-6. **container-crashloopbackoff**
-   - **Description**: The container in the pod is continuously crashing.
-   - **Fix**: Investigate logs to identify the cause and resolve the issue (e.g., missing dependencies, incorrect commands).
-
-7. **container-oom-killed**
-   - **Description**: The container gets killed due to exceeding memory limits.
-   - **Fix**: Increase the memory limits or optimize the container's memory usage.
-
-8. **container-terminated-error**
-   - **Description**: The container terminates unexpectedly with no clear reason.
-   - **Fix**: Check container logs and configuration.
-
-9. **image-pull-errors**
-   - **Description**: The container cannot pull the required image.
-   - **Fix**: Verify the image repository credentials and network access.
-
-10. **liveness-probe-failure**
-    - **Description**: The pod fails the liveness probe check.
-    - **Fix**: Ensure the application inside the container is responding to the probe correctly.
-
-### **Pod Scheduled, But Container Runtime Errors**
-
-11. **pod-network-not-available**
-    - **Description**: Network connectivity between pods is unavailable.
-    - **Fix**: Check the network plugin and configuration.
-
-12. **pod-initialization-failure**
-    - **Description**: The pod is unable to initialize or start properly.
-    - **Fix**: Check for issues in the pod spec, volume mounts, or container images.
-
-13. **pod-storage-error**
-    - **Description**: The pod cannot mount its storage volume.
-    - **Fix**: Verify storage class, PVC, and node access to volumes.
-
-14. **pod-internal-dependency-error**
-    - **Description**: The pod fails to start due to missing dependencies within the cluster.
-    - **Fix**: Ensure required services, secrets, or configs are accessible.
-
-15. **pod-not-accessible-via-internal-service**
-    - **Description**: The pod is running but is not accessible from within the cluster.
-    - **Fix**: Ensure the internal service is correctly defined and routing traffic properly.
-
-### **Pod Scheduled, Container and Runtime Are Fine, But Application is Not Accessible**
-
-16. **loadbalancer-service-misconfig**
-    - **Description**: Misconfigured LoadBalancer service, failing to route traffic to the pods.
-    - **Fix**: Ensure proper configuration for LoadBalancer services.
-
-17. **firewall-restriction**
-    - **Description**: Firewall or security group settings block external access to the LoadBalancer.
-    - **Fix**: Adjust firewall rules to allow inbound traffic.
-
-18. **ingress-configuration-issue**
-    - **Description**: Incorrect ingress configuration, causing failure to route external traffic to the correct service.
-    - **Fix**: Review and correct ingress rules.
-
-19. **service-port-mismatch**
-    - **Description**: Mismatch between the external port exposed and the internal service port.
-    - **Fix**: Ensure that service ports match between internal and external configurations.
-
-20. **dns-resolution-failure**
-    - **Description**: DNS names are not resolving correctly, though services work internally with `curl`.
-    - **Fix**: Verify DNS configurations in the cluster and external DNS resolution settings.
-
----
-
-### **Additional Scenarios**
-
-21. **pod-readiness-failure**
-    - **Description**: Pod readiness probe fails, causing the pod to be considered unavailable.
-    - **Fix**: Review the readiness probe configuration and application health.
-
-22. **volume-attachment-failure**
-    - **Description**: Failure in attaching volumes to the pod.
-    - **Fix**: Ensure the correct volume is specified and check cloud provider restrictions.
-
-23. **pod-over-scaling**
-    - **Description**: Pods are over-scaling, exhausting node resources.
-    - **Fix**: Configure Horizontal Pod Autoscaler (HPA) with proper limits.
-
-24. **metrics-server-failure**
-    - **Description**: Metrics server fails, preventing autoscaling.
-    - **Fix**: Install or configure the metrics server correctly.
-
-25. **namespace-lifecycle-issue**
-    - **Description**: Pod fails to be created or terminated due to namespace issues.
-    - **Fix**: Check the namespace existence and permissions.
-
-26. **resource-quota-exceeded**
-    - **Description**: Resource quota exceeded in the namespace.
-    - **Fix**: Adjust resource quotas or free up resources.
-
-27. **kube-apiserver-unreachable**
-    - **Description**: Unable to reach the kube-apiserver, causing control-plane issues.
-    - **Fix**: Check kube-apiserver health and network connectivity.
-
-28. **etcd-consistency-issue**
-    - **Description**: The etcd cluster becomes inconsistent, causing various issues.
-    - **Fix**: Perform etcd recovery or check for disk space/consistency issues.
-
-29. **kubelet-timeout**
-    - **Description**: Kubelet times out while starting or terminating pods.
-    - **Fix**: Review kubelet logs and network settings.
-
-30. **node-eviction**
-    - **Description**: Pods are evicted due to node resource pressure.
-    - **Fix**: Investigate resource usage and optimize pod placement.
-
-31. **scheduler-bug**
-    - **Description**: Scheduler fails to properly schedule pods on available nodes.
-    - **Fix**: Investigate scheduler logs for bugs or misconfigurations.
-
-32. **crashloopbackoff-due-to-configmap**
-    - **Description**: A pod goes into `CrashLoopBackOff` due to a missing or incorrect `ConfigMap`.
-    - **Fix**: Ensure the correct `ConfigMap` is present and properly referenced.
-
-33. **pod-mount-failure**
-    - **Description**: The pod fails to mount required files or secrets.
-    - **Fix**: Verify volume and secret references in the pod configuration.
-
-34. **storage-class-issue**
-    - **Description**: Incorrect storage class prevents pod from accessing persistent storage.
-    - **Fix**: Review storage class and PVC configuration for correctness.
-
-35. **pod-memory-leak**
-    - **Description**: The pod suffers from memory leaks, causing the container to consume excessive memory over time.
-    - **Fix**: Investigate application logs and optimize memory usage in the pod.
-
----
-
-## How to Simulate and Fix These Issues
-
-Each folder in this repository contains:
-- **`issue.yaml`** files to simulate the errors.
-- **`fix.yaml`** files to resolve the issues.
-- **`description.md`** providing an in-depth explanation of the issue and its resolution.
-
-You can simulate a scenario by applying the respective `issue.yaml` file, diagnose the issue, and then apply the `fix.yaml` file to resolve it. 
-
-### How to Use the Shell Script:
-1. Clone the repository.
-2. Navigate to the `scripts/` directory.
-3. Run the `manage-scenarios.sh` script.
-4. Enter the scenario number when prompted, and the script will guide you through the issue and fix process.
+### Folder Structure
+Each scenario is organized in its own folder under the `scenarios/` directory. For example:
+```
+scenarios/
+  affinity-rules-violation/
+    issue.yaml       # Simulates the problem
+    fix.yaml         # Contains the solution
+    description.md   # Explains the root cause and resolution
 ```
 
+### Available Scenarios
+The repository includes the following scenarios:
+1. Affinity Rules Violation
+2. DNS Resolution Failure
+3. Insufficient Resources
+4. Outdated Kubernetes Version
+5. Security Context Issues
+6. CGroup Issues
+7. Failed Resource Limits
+8. Liveness Probe Failure
+9. Persistent Volume Claim Issues
+10. SELinux/AppArmor Policy Violation
+11. Cluster Autoscaler Issues
+12. File Permissions on Mounted Volumes
+13. Liveness & Readiness Failure
+14. PID Namespace Collision
+15. Service Account Permissions Issue
+16. Container Runtime (CRI) Errors
+17. Firewall Restriction
+18. LoadBalancer Service Misconfiguration
+19. Pod Disruption Budget Violations
+20. Service Port Mismatch
+21. Crash Due to Insufficient Disk Space
+22. Image Pull Backoff
+23. Network Connectivity Issues
+24. Port Binding Issues
+25. Taints and Tolerations Mismatch
+26. CrashLoopBackOff
+27. Image Pull Error
+28. Node Affinity Issue
+29. Readiness Probe Failure
+30. Volume Mount Issue
+31. Disk IO Errors
+32. Ingress Configuration Issue
+33. OOM Killed
+34. Resource Requests & Limits Mismatch
+35. Wrong Container Command
+
+### Troubleshooting Tips
+- Always check pod logs and describe the pod to identify issues:
+  ```bash
+  kubectl logs <pod-name>
+  kubectl describe pod <pod-name>
+  ```
+- If a fix does not resolve the issue, verify cluster configurations and try reapplying the scenario.
+
+## Contributing
+Feel free to contribute new scenarios or improve existing ones by submitting a pull request.
+
+## License
+This project is licensed under the MIT License.
+
 ---
+Enjoy learning Kubernetes troubleshooting! 🚀
+
+This is [Koti](https://www.linkedin.com/in/vellankikoti/)
+
