@@ -12,30 +12,34 @@ if [ ! -d "./scenarios" ]; then
     exit 1
 fi
 
-# Loop through each scenario folder
+# Loop through each scenario folder in the 'scenarios' directory
 for scenario_dir in ./scenarios/*/; do
     # Check if it's a directory
     if [ -d "$scenario_dir" ]; then
         # Print the scenario directory being checked for debugging purposes
         echo "Checking directory: $scenario_dir"
         
-        # Check if a Dockerfile exists in the current scenario folder
-        dockerfile="${scenario_dir}Dockerfile"
-        echo "Looking for Dockerfile at: $dockerfile"  # Debugging line
+        # Determine the scenario name (this will be used for the Docker image tag)
+        scenario_name=$(basename "$scenario_dir")
 
+        # Define the path to the Dockerfile (e.g., Dockerfile.image-pull-backoff)
+        dockerfile="${scenario_dir}Dockerfile.${scenario_name}"
+
+        # Debugging line: Print the path where the script is looking for the Dockerfile
+        echo "Looking for Dockerfile at: $dockerfile"
+
+        # Check if the Dockerfile exists in the expected location
         if [ -f "$dockerfile" ]; then
-            # Get the scenario name (directory name)
-            scenario_name=$(basename "$scenario_dir")
+            # Build the Docker image using the specified Dockerfile
             echo "Building Docker image for $scenario_name..."
 
-            # Build the Docker image using the found Dockerfile
             docker build -t "$DOCKER_USERNAME/$scenario_name:latest" -f "$dockerfile" "$scenario_dir"
             
             # Push the image to DockerHub
             echo "Pushing Docker image for $scenario_name to DockerHub..."
             docker push "$DOCKER_USERNAME/$scenario_name:latest"
         else
-            echo "No Dockerfile found in $scenario_dir, skipping..."
+            echo "No Dockerfile found at $dockerfile for $scenario_name, skipping..."
         fi
     else
         echo "$scenario_dir is not a valid directory. Skipping..."
