@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # This script helps to simulate and resolve Kubernetes troubleshooting scenarios
-# It will guide the user to choose a scenario, apply the issue and fix YAMLs, and manage resources accordingly.
 
 # Define function to display usage
 usage() {
@@ -17,48 +16,72 @@ simulate_and_fix() {
   # Navigate to the corresponding scenario folder
   cd "scenarios/$scenario" || { echo "Scenario folder not found!"; exit 1; }
 
+  # First, clean up any existing resources from previous runs
+  kubectl delete -f issue.yaml >/dev/null 2>&1
+  kubectl delete -f fix.yaml >/dev/null 2>&1
+
   # Display the issue YAML content
-  echo -e "\n** Issue for Scenario: $scenario **"
+  echo -e "\n** Issue YAML that will be applied: **"
   cat issue.yaml
 
-  # Apply the issue YAML
-  echo -e "\nSimulating the issue..."
-  kubectl apply -f issue.yaml
+  # Apply the issue YAML to create the problem
+  echo -e "\nCreating the issue scenario..."
+  kubectl apply -f issue.yaml || { echo "Failed to apply issue.yaml"; exit 1; }
 
-  echo -e "\nYou can check the status of the issue using kubectl commands such as:"
+  # Wait for a few seconds to let the issue manifest
+  echo -e "\nWaiting for the issue to manifest..."
+  sleep 5
+
+  echo -e "\nCurrent status of pods:"
+  kubectl get pods || { echo "Failed to get pods status"; exit 1; }
+
+  echo -e "\nYou can use the following commands to investigate:"
   echo "  kubectl get pods"
   echo "  kubectl describe pod <pod_name>"
   echo "  kubectl logs <pod_name>"
-  read -p "Press Enter to continue and apply the fix..."
+  
+  read -p "Press Enter when you're ready to see and apply the fix..."
 
   # Display the fix YAML content
-  echo -e "\n** Fix for Scenario: $scenario **"
+  echo -e "\n** Fix YAML that will be applied: **"
   cat fix.yaml
+
+  # Delete the issue resources before applying the fix
+  echo -e "\nRemoving the issue configuration..."
+  kubectl delete -f issue.yaml --grace-period=0 --force || { echo "Failed to delete issue.yaml"; exit 1; }
+
+  # Wait for resources to be cleaned up
+  echo -e "\nWaiting for cleanup..."
+  sleep 3
 
   # Apply the fix YAML
   echo -e "\nApplying the fix..."
-  kubectl apply -f fix.yaml
+  kubectl apply -f fix.yaml || { echo "Failed to apply fix.yaml"; exit 1; }
 
-  echo -e "\nThe fix has been applied."
-  echo "Check the status again using kubectl commands to ensure the issue is resolved."
+  # Wait for a few seconds to let the fix take effect
+  sleep 5
+
+  echo -e "\nCurrent status after applying fix:"
+  kubectl get pods || { echo "Failed to get pods status after applying fix"; exit 1; }
 
   # Prompt user to clean up resources or retain them
   while true; do
-    echo -e "\nDo you want to clean up resources related to this scenario?"
+    echo -e "\nDo you want to clean up all resources related to this scenario?"
     read -p "(y/yes to delete, n/no to keep): " cleanup_choice
 
     case $cleanup_choice in
       [Yy]|[Yy][Ee][Ss])
         echo "Cleaning up resources for scenario: $scenario"
-        kubectl delete -f issue.yaml
-        kubectl delete -f fix.yaml
+        kubectl delete -f fix.yaml --grace-period=0 --force || { echo "Failed to delete fix.yaml"; exit 1; }
         echo "Resources have been cleaned up."
         break
         ;;
+
       [Nn]|[Nn][Oo])
-        echo "Retaining resources for scenario: $scenario."
+        echo "Retaining resources for scenario: $scenario"
         break
         ;;
+
       *)
         echo "Invalid input. Please enter y/yes or n/no."
         ;;
@@ -110,7 +133,12 @@ scenarios=(
 
 # Start of script execution
 echo "Welcome to the Kubernetes Troubleshooting Scenarios Simulator!"
-echo "Choose a scenario to simulate and resolve."
+echo "This script will help you practice troubleshooting various Kubernetes issues."
+echo "For each scenario, we will:"
+echo "1. Create an issue"
+echo "2. Let you examine it"
+echo "3. Apply a fix"
+echo "4. Verify the resolution"
 
 # Display available scenarios
 echo -e "\nAvailable scenarios:"
