@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    net-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating port binding issues
+COPY ./port_binding_issue.sh /usr/local/bin/port_binding_issue.sh
+RUN chmod +x /usr/local/bin/port_binding_issue.sh
+
+ENTRYPOINT ["/usr/local/bin/port_binding.sh"]

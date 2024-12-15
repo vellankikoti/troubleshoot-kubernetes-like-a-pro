@@ -1,0 +1,4 @@
+FROM ubuntu:20.04
+
+# Simulate a crashing container
+CMD ["bash", "-c", "echo 'Simulating a crashloop'; exit 1"]

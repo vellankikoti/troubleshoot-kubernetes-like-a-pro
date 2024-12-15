@@ -1,0 +1,11 @@
+FROM alpine:3.16
+
+RUN apk add --no-cache \
+    bash \
+    curl
+
+# Simulating cluster autoscaler misconfiguration
+COPY ./autoscaler_issue.sh /usr/local/bin/autoscaler_issue.sh
+RUN chmod +x /usr/local/bin/autoscaler_issue.sh
+
+ENTRYPOINT ["/usr/local/bin/autoscaler_issue.sh"]

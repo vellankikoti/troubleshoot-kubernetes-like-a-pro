@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    stress \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating PID namespace collisions by running multiple processes
+COPY ./pid_collision.sh /usr/local/bin/pid_collision.sh
+RUN chmod +x /usr/local/bin/pid_collision.sh
+
+ENTRYPOINT ["/usr/local/bin/pid_namespace.sh"]

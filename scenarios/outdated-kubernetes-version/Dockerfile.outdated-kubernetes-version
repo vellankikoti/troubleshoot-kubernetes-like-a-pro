@@ -1,0 +1,6 @@
+FROM k8s.gcr.io/kube-apiserver:v1.18.0
+
+EXPOSE 6443
+
+# Simulate the use of an outdated Kubernetes version
+CMD ["kube-apiserver", "--advertise-address=0.0.0.0", "--allow-privileged=true"]

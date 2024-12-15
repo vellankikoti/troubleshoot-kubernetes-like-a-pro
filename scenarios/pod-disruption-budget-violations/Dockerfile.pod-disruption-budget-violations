@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating PodDisruptionBudget violations
+COPY ./pdb_violation.sh /usr/local/bin/pdb_violation.sh
+RUN chmod +x /usr/local/bin/pdb_violation.sh
+
+ENTRYPOINT ["/usr/local/bin/pdb_violation.sh"]

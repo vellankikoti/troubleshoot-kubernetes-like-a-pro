@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    stress-ng \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating insufficient resources by consuming CPU and memory
+COPY ./resource_exhaustion.sh /usr/local/bin/resource_exhaustion.sh
+RUN chmod +x /usr/local/bin/resource_exhaustion.sh
+
+ENTRYPOINT ["/usr/local/bin/insufficient_resources.sh"]

@@ -1,0 +1,13 @@
+FROM ubuntu:20.04
+
+# Install required tools
+RUN apt-get update && apt-get install -y curl vim && rm -rf /var/lib/apt/lists/*
+
+# Add misconfiguration scripts
+COPY misconfigured_ingress.sh /scripts/
+COPY invalid_tls_ingress.sh /scripts/
+
+# Set script permissions
+RUN chmod +x /scripts/*.sh
+
+CMD ["/bin/bash"]

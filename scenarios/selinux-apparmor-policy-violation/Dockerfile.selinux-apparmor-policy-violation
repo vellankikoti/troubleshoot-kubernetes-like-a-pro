@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    apparmor-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating SELinux/AppArmor policy violations
+COPY ./selinux_apparmor_violation.sh /usr/local/bin/selinux_apparmor_violation.sh
+RUN chmod +x /usr/local/bin/selinux_apparmor_violation.sh
+
+ENTRYPOINT ["/usr/local/bin/selinux_violation.sh"]

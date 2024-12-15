@@ -1,0 +1,7 @@
+FROM nginx:1.21
+
+# Simulate a service port mismatch
+COPY ./mismatch_config.sh /usr/local/bin/mismatch_config.sh
+RUN chmod +x /usr/local/bin/mismatch_config.sh
+
+ENTRYPOINT ["/usr/local/bin/mismatch_config.sh"]

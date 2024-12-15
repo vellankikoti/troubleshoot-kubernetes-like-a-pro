@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    iptables \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating firewall restriction issues
+COPY ./firewall_restriction.sh /usr/local/bin/firewall_restriction.sh
+RUN chmod +x /usr/local/bin/firewall_restriction.sh
+
+ENTRYPOINT ["/usr/local/bin/firewall_restriction.sh"]

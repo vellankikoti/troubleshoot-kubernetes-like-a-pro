@@ -1,0 +1,13 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating an affinity rules violation
+COPY ./affinity_violation.sh /usr/local/bin/affinity_violation.sh
+RUN chmod +x /usr/local/bin/affinity_violation.sh
+
+# Command to simulate affinity rules violation on container start
+ENTRYPOINT ["/usr/local/bin/affinity_violation.sh"]

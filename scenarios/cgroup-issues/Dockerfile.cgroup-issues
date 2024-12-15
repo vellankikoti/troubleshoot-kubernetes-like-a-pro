@@ -1,0 +1,14 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    bash \
+    nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulate cgroup issues with a custom script
+COPY ./cgroup_test.sh /app/cgroup_test.sh
+RUN chmod +x /app/cgroup_test.sh
+
+# Run the cgroup test on startup
+ENTRYPOINT ["/bin/bash", "/app/cgroup_test.sh"]

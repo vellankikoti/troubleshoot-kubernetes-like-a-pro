@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating taints and tolerations mismatch
+COPY ./taints_tolerations_issue.sh /usr/local/bin/taints_tolerations_issue.sh
+RUN chmod +x /usr/local/bin/taints_tolerations_issue.sh
+
+ENTRYPOINT ["/usr/local/bin/taints_tolerations_issue.sh"]

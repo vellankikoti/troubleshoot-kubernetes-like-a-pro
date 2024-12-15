@@ -1,0 +1,4 @@
+FROM ubuntu:20.04
+
+# Simulating an image pull error
+RUN echo "Simulating a non-existent image pull error"

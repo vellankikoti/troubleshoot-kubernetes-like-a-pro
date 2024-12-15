@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    dd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating crash due to insufficient disk space
+COPY ./fill_disk.sh /usr/local/bin/fill_disk.sh
+RUN chmod +x /usr/local/bin/fill_disk.sh
+
+ENTRYPOINT ["/usr/local/bin/fill_disk.sh"]

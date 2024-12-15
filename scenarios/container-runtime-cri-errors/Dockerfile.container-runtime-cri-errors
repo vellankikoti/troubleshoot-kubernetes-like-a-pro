@@ -1,0 +1,5 @@
+FROM ubuntu:20.04
+
+# Simulate container runtime (CRI) errors
+RUN echo "Simulating CRI error by intentionally breaking runtime compatibility"
+CMD ["false"]

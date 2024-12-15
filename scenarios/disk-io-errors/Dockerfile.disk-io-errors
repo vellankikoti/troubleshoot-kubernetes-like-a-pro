@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    dd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating disk IO errors
+COPY ./disk_io_test.sh /usr/local/bin/disk_io_test.sh
+RUN chmod +x /usr/local/bin/disk_io_test.sh
+
+ENTRYPOINT ["/usr/local/bin/disk_io_test.sh"]

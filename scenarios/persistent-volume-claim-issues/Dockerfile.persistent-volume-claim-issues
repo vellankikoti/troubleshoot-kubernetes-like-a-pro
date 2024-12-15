@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    bash \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating PersistentVolumeClaim issues
+COPY ./pvc_issue_simulation.sh /usr/local/bin/pvc_issue_simulation.sh
+RUN chmod +x /usr/local/bin/pvc_issue_simulation.sh
+
+ENTRYPOINT ["/usr/local/bin/pvc_issue.sh"]

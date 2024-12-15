@@ -1,0 +1,4 @@
+FROM alpine:3.16
+
+# Simulating ImagePullBackOff by using an invalid image reference
+CMD ["sh", "-c", "echo 'This is an invalid image reference'; exit 1"]

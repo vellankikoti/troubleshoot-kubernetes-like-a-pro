@@ -1,0 +1,12 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    stress \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating resource limits failure by stressing the system
+COPY ./resource_limits_failure.sh /usr/local/bin/resource_limits_failure.sh
+RUN chmod +x /usr/local/bin/resource_limits_failure.sh
+
+ENTRYPOINT ["/usr/local/bin/resource_limits_failure.sh"]

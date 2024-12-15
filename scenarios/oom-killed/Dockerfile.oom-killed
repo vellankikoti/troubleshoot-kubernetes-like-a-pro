@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    stress-ng \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating OOM kill by consuming excessive memory
+COPY ./oom_kill_memory.sh /usr/local/bin/oom_kill_memory.sh
+RUN chmod +x /usr/local/bin/oom_kill_memory.sh
+
+ENTRYPOINT ["/usr/local/bin/oom_kill_memory.sh"]

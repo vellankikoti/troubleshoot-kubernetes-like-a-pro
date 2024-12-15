@@ -1,0 +1,4 @@
+FROM ubuntu:20.04
+
+# Simulating wrong container command by providing an invalid entrypoint
+ENTRYPOINT ["nonexistent-command"]

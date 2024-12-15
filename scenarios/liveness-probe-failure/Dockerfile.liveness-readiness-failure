@@ -1,0 +1,12 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulate liveness probe failure by making Nginx unresponsive
+COPY ./liveness_probe_fail.sh /usr/local/bin/liveness_probe_fail.sh
+RUN chmod +x /usr/local/bin/liveness_probe_fail.sh
+
+ENTRYPOINT ["/usr/local/bin/liveness_probe.sh"]

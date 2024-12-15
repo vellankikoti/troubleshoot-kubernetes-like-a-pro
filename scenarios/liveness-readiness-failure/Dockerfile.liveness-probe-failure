@@ -1,0 +1,7 @@
+FROM nginx:1.21
+
+# Simulating a liveness probe failure by introducing delays or incorrect responses
+COPY ./liveness_probe_failure.sh /usr/local/bin/liveness_probe_failure.sh
+RUN chmod +x /usr/local/bin/liveness_probe_failure.sh
+
+ENTRYPOINT ["/usr/local/bin/liveness_probe_failure.sh"]

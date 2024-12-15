@@ -1,0 +1,11 @@
+FROM nginx:1.21
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Simulating liveness/readiness failure by making the service unresponsive
+COPY ./liveness_readiness.sh /usr/local/bin/liveness_readiness.sh
+RUN chmod +x /usr/local/bin/liveness_readiness.sh
+
+ENTRYPOINT ["/usr/local/bin/liveness_readiness.sh"]
