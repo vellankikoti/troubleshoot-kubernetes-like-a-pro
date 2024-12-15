@@ -1,5 +1,3 @@
-Sure! Here's the **`README.md`** content in markdown format that you can use directly in your repository.
-
 ```markdown
 # Troubleshoot Kubernetes Like a Pro: Real-World Scenarios
 
