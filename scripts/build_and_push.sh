@@ -6,14 +6,23 @@ DOCKER_USERNAME="vellankikoti"  # Change this to your DockerHub username
 # Starting the build and push process
 echo "Starting the process of building and pushing Docker images..."
 
+# Check if the 'scenarios' directory exists
+if [ ! -d "./scenarios" ]; then
+    echo "'scenarios' directory not found. Please make sure your directory structure is correct."
+    exit 1
+fi
+
 # Loop through each scenario folder
 for scenario_dir in ./scenarios/*/; do
     # Check if it's a directory
     if [ -d "$scenario_dir" ]; then
+        # Print the scenario directory being checked for debugging purposes
+        echo "Checking directory: $scenario_dir"
+        
         # Check if a Dockerfile exists in the current scenario folder
         dockerfile="${scenario_dir}Dockerfile"
-        
-        # If a Dockerfile exists in the scenario directory
+        echo "Looking for Dockerfile at: $dockerfile"  # Debugging line
+
         if [ -f "$dockerfile" ]; then
             # Get the scenario name (directory name)
             scenario_name=$(basename "$scenario_dir")
@@ -28,6 +37,8 @@ for scenario_dir in ./scenarios/*/; do
         else
             echo "No Dockerfile found in $scenario_dir, skipping..."
         fi
+    else
+        echo "$scenario_dir is not a valid directory. Skipping..."
     fi
 done
 
